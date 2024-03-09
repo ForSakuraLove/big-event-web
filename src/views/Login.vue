@@ -44,17 +44,23 @@ const rules = {
 }
 
 const register = async () => {
-    await userRegisterService(registerData.value)
-    ElMessage.success('注册成功')
+    let valid = validateForm()
+    if (valid) {
+        await userRegisterService(registerData.value)
+        ElMessage.success('注册成功')
+    }
 }
 
 const tokenStore = useTokenStore()
 
 const login = async () => {
-    let result = await userLoginService(registerData.value)
-    ElMessage.success('登录成功')
-    tokenStore.setToken(result.data)
-    router.push('/')
+    const valid = validateForm()
+    if (valid) {
+        let result = await userLoginService(registerData.value)
+        ElMessage.success('登录成功')
+        tokenStore.setToken(result.data)
+        router.push('/')
+    }
 }
 
 const clearRegisterData = () => {
@@ -63,6 +69,47 @@ const clearRegisterData = () => {
         password: '',
         rePassword: ''
     }
+}
+
+// 校验函数
+const validateForm = () => {
+    const formData = registerData.value
+    let isValid = true;
+    for (let field in rules) {
+        // 登录场景不校验确认密码
+        if (!isRegister.value && field === 'rePassword') {
+            continue;
+        }
+
+        for (let rule of rules[field]) {
+            if (rule.required && (!formData[field] || formData[field].trim() === '')) {
+                ElMessage.error(rule.message)
+                return false; // 校验失败
+            }
+            if (rule.min && formData[field] && formData[field].length < rule.min) {
+                ElMessage.error(rule.message)
+                return false; // 校验失败
+            }
+            if (rule.max && formData[field] && formData[field].length > rule.max) {
+                ElMessage.error(rule.message)
+                return false; // 校验失败
+            }
+            if (field === 'rePassword') {
+                rule.validator(rule, formData[field], (error) => {
+                    // 如果校验失败，输出错误消息并返回 false
+                    if (error) {
+                        ElMessage.error(error.message);
+                        isValid = false;
+                        return false;
+                    }
+                });
+            }
+        }
+        if (!isValid) {
+            return false;
+        }
+    }
+    return true; // 校验通过
 }
 
 </script>
