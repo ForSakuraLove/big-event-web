@@ -10,7 +10,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { useTokenStore } from '@/stores/token.js'
-import { ElMessage } from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus'
 //文章分类数据模型
 const categorys = ref([])
 
@@ -121,9 +121,29 @@ const showDrawer = (row) => {
 }
 
 const deleteArticle = async (row) => {
-    await deleteArticleService(row.id)
-    ElMessage.success('文章删除成功')
-    getArticleList()
+    ElMessageBox.confirm(
+        `确定要删除${row.title}吗?`,
+        '删除分类确认',
+        {
+            confirmButtonText: '确认删除',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    )
+        .then(async () => {
+            await deleteArticleService(row.id)
+            ElMessage({
+                type: 'success',
+                message: '删除成功',
+            })
+            getArticleList()
+        })
+        .catch(() => {
+            ElMessage({
+                type: 'info',
+                message: '取消删除',
+            })
+        })
 }
 
 const updateArticle = async (clickState) => {
