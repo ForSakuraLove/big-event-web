@@ -7,7 +7,10 @@ import {
     Crop,
     EditPen,
     SwitchButton,
-    CaretBottom
+    CaretBottom,
+    Suitcase,
+    Menu as IconMenu,
+    Setting,
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
 import { userInfoService } from '@/api/user.js'
@@ -57,6 +60,9 @@ const handleCommand = (command) => {
     }
 }
 
+const handleSystemManagePath = (command) => {
+    router.push('/systemManage/' + command)
+}
 
 </script>
 
@@ -78,7 +84,7 @@ const handleCommand = (command) => {
                     </el-icon>
                     <span>文章管理</span>
                 </el-menu-item>
-                <el-sub-menu>
+                <el-sub-menu index="/user">
                     <template #title>
                         <el-icon>
                             <UserFilled />
@@ -102,6 +108,32 @@ const handleCommand = (command) => {
                             <EditPen />
                         </el-icon>
                         <span>重置密码</span>
+                    </el-menu-item>
+                </el-sub-menu>
+                <el-sub-menu index="/systemManage">
+                    <template #title>
+                        <el-icon>
+                            <setting />
+                        </el-icon>
+                        <span>系统管理</span>
+                    </template>
+                    <el-menu-item index="/systemManage/userManage" @click="handleSystemManagePath('userManage')">
+                        <el-icon>
+                            <User />
+                        </el-icon>
+                        <span>用户管理</span>
+                    </el-menu-item>
+                    <el-menu-item index="/systemManage/roleManage" @click="handleSystemManagePath('roleManage')">
+                        <el-icon>
+                            <Suitcase />
+                        </el-icon>
+                        <span>角色管理</span>
+                    </el-menu-item>
+                    <el-menu-item index="/systemManage/menuManage" @click="handleSystemManagePath('menuManage')">
+                        <el-icon>
+                            <icon-menu />
+                        </el-icon>
+                        <span>权限管理</span>
                     </el-menu-item>
                 </el-sub-menu>
             </el-menu>
