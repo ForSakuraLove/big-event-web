@@ -10,22 +10,32 @@ import UserResetPasswordVue from '@/views/user/UserResetPassword.vue'
 import UserManageVue from '@/views/systemManage/UserManage.vue'
 import RoleManageVue from '@/views/systemManage/RoleManage.vue'
 import MenuManageVue from '@/views/systemManage/MenuManage.vue'
+import HomeVue from '@/views/home/Home.vue'
 
 const routes = [
     { path: '/login', component: LoginVue },
     {
         path: '/',
-        component: LayoutVue,
-        redirect: 'article/category',
+        component: HomeVue,
+        redirect: '/home',
         children: [
-            { path: 'article/category', component: ArticleCategoryVue },
-            { path: 'article/manage', component: ArticleManageVue },
+            { path: '/home', component: HomeVue },
+        ]
+    },
+
+    {
+        path: '/article',
+        component: LayoutVue,
+        redirect: '/article/category',
+        children: [
+            { path: 'category', component: ArticleCategoryVue },
+            { path: 'manage', component: ArticleManageVue },
         ]
     },
     {
         path: '/user',
         component: LayoutVue,
-        redirect: '/avatar',
+        redirect: '/user/info',
         children: [
             { path: 'avatar', component: UserAvatarVue },
             { path: 'info', component: UserInfoVue },
@@ -35,7 +45,7 @@ const routes = [
     {
         path: '/systemManage',
         component: LayoutVue,
-        redirect: '/userManage',
+        redirect: '/systemManage/userManage',
         children: [
             { path: 'userManage', component: UserManageVue },
             { path: 'roleManage', component: RoleManageVue },

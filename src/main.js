@@ -8,6 +8,8 @@ import router from '@/router'
 import { createPinia } from 'pinia'
 import { createPersistedState } from 'pinia-persistedstate-plugin'
 import locale from 'element-plus/dist/locale/zh-cn.js'
+import Particles from "particles.vue3"
+
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -16,4 +18,5 @@ pinia.use(persistedstate)
 app.use(pinia)
 app.use(router)
 app.use(ElementPlus,{locale})
+app.use(Particles)
 app.mount('#app')
