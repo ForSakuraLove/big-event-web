@@ -13,7 +13,7 @@ import {
     Setting,
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
-import { userInfoService } from '@/api/user.js'
+import { userInfoService, userLogoutService } from '@/api/user.js'
 import useUserInfoStore from '@/stores/userInfo.js'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -39,10 +39,10 @@ const handleCommand = (command) => {
                 type: 'warning',
             }
         )
-            .then(() => {
+            .then(async () => {
+                await userLogoutService()
                 tokenStore.removeToken()
                 userInfoStore.removeInfo()
-
                 router.push('/login')
                 ElMessage({
                     type: 'success',
