@@ -70,7 +70,9 @@ const handleSystemManagePath = (command) => {
     <el-container class="layout-container">
         <!-- 左侧菜单 -->
         <el-aside width="200px">
-            <div class="el-aside__logo"></div>
+            <router-link to="/home">
+                <div class="el-aside__logo"></div>
+            </router-link>
             <el-menu active-text-color="#ffd04b" background-color="#232323" text-color="#fff" router>
                 <el-menu-item index="/article/category">
                     <el-icon>
