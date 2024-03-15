@@ -23,3 +23,7 @@ export function userInfoService() {
 export function userUpdateService(userInfoData) {
     return request.put('/user/update', userInfoData)
 }
+
+export function userLogoutService() {
+    return request.post('/user/logout')
+}
