@@ -1,0 +1,1 @@
+export const GITHUB_LOGIN_URL = 'http://localhost:1234/oauth2/authorization/github'
